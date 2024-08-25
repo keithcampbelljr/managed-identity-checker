@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='managed-identity-checker',
+    name='mi-inspect',
     version='0.1',
     packages=find_packages(include=['app', 'app.*']),
     install_requires=[
@@ -11,7 +11,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'managed-identity-checker=app.cli:main',
+            'mi-inspect=app.cli:main',
         ],
     },
 )

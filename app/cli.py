@@ -5,7 +5,7 @@ from .display import display_permissions
 from .auth import authenticate
 
 @click.command()
-@click.option('--subscription-id', prompt='Subscription ID', help='Azure subscription ID')
+@click.option('--subscription', prompt='Subscription ID', help='Azure subscription ID')
 @click.option('--name', prompt='Managed Identity Name', help='Managed Identity Name')
 def main(subscription_id, managed_identity_name):
     credential = authenticate()
