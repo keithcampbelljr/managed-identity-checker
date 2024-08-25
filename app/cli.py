@@ -1,8 +1,8 @@
 import click
 from azure.identity import DefaultAzureCredential
-from .roles import get_authorization_client, list_role_assignments, list_managed_identities, get_msi_client
+from .roles import list_role_assignments, list_managed_identities
 from .display import display_permissions
-from .auth import authenticate
+from .auth import authenticate, get_authorization_client, get_msi_client
 
 @click.command()
 @click.option('--subscription', prompt='Subscription ID', help='Azure subscription ID')

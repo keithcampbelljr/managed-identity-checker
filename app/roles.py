@@ -1,27 +1,8 @@
 from azure.mgmt.authorization import AuthorizationManagementClient
 from azure.mgmt.authorization.models import RoleAssignment
 from azure.core.exceptions import AzureError
-from azure.identity import DefaultAzureCredential
 from typing import Iterable
 from azure.mgmt.msi import ManagedServiceIdentityClient
-
-def get_authorization_client(credential: DefaultAzureCredential, 
-                             subscription_id: str) -> AuthorizationManagementClient:
-    try:
-        authorization_client = AuthorizationManagementClient(credential, subscription_id)
-        return authorization_client
-    except AzureError as e:
-        print(f"Failed to create Authorization Management client: {str(e)}")
-        raise
-
-def get_msi_client(credential: DefaultAzureCredential, 
-                   subscription_id: str) -> ManagedServiceIdentityClient:
-    try:
-        msi_client = ManagedServiceIdentityClient(credential, subscription_id)
-        return msi_client
-    except AzureError as e:
-        print(f"Failed to create Managed Service Identity client: {str(e)}")
-        raise
 
 def list_managed_identities(msi_client: ManagedServiceIdentityClient, 
                             managed_identity_name: str):
