@@ -1,12 +1,11 @@
 import click
-from azure.identity import DefaultAzureCredential
 from .roles import list_role_assignments, list_managed_identities
 from .display import display_permissions
 from .auth import authenticate, get_authorization_client, get_msi_client
 
 @click.command()
-@click.option('--subscription', prompt='Subscription ID', help='Azure subscription ID')
-@click.option('--name', prompt='Managed Identity Name', help='Managed Identity Name')
+@click.option('--subscription', 'subscription_id', prompt='Subscription ID', help='Azure subscription ID')
+@click.option('--name', 'managed_identity_name', prompt='Managed Identity Name', help='Managed Identity Name')
 def main(subscription_id, managed_identity_name):
     credential = authenticate()
     msi_client = get_msi_client(credential, subscription_id)

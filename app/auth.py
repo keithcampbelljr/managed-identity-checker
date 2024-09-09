@@ -1,7 +1,7 @@
 from azure.identity import DefaultAzureCredential
 from azure.core.exceptions import AzureError
 from azure.mgmt.authorization import AuthorizationManagementClient
-from azure.identity import DefaultAzureCredential
+from azure.mgmt.msi import ManagedServiceIdentityClient
 
 def authenticate() -> DefaultAzureCredential:
     try:
