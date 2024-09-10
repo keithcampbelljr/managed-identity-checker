@@ -1,5 +1,6 @@
 # Setup
-`pip install -e .`
-
+`python -m venv venv`
+Activate venv
+`pip install -r requirements.txt`
 # Run
-`mi-inspect --subscription 12345-1234-1234-1234-1234567890  --name test-mi`
+`python main.py --subscription-id 12345 --identity-name myCoolMiHere`
