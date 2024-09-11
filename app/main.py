@@ -1,10 +1,9 @@
 import argparse
-from auth import get_default_credential
-from role_assignments import get_role_assignments
+from app.auth import get_default_credential, get_service_principal_credential
+from app.role_assignments import get_role_assignments
 from azure.mgmt.msi import ManagedServiceIdentityClient
 
 def get_principal_id(credential, subscription_id, managed_identity_name):
-    """Retrieve the principal (object) ID of the user-assigned managed identity by name."""
     msi_client = ManagedServiceIdentityClient(credential, subscription_id)
     identities = msi_client.user_assigned_identities.list_by_subscription()
 
@@ -15,21 +14,28 @@ def get_principal_id(credential, subscription_id, managed_identity_name):
 
 def main():
     parser = argparse.ArgumentParser(description="Retrieve Azure role assignments for a managed identity.")
+    
     parser.add_argument('--subscription-id', required=True, help="Azure subscription ID.")
     parser.add_argument('--managed-identity-name', required=True, help="The name of the managed identity.")
     
+    # Optional
+    parser.add_argument('--client-id', help="Service Principal Client ID (optional).")
+    parser.add_argument('--client-secret', help="Service Principal Client Secret (optional).")
+    parser.add_argument('--tenant-id', help="Service Principal Tenant ID (optional).")
+
     args = parser.parse_args()
 
-    # Get credentials and subscription
-    credential = get_default_credential()
+    if args.client_id and args.client_secret and args.tenant_id:
+        credential = get_service_principal_credential(args.client_id, args.client_secret, args.tenant_id)
+        print("Using Service Principal credentials.")
+    else:
+        credential = get_default_credential()
+        print("Using Default Azure credentials.")
 
-    # Fetch the principal ID using the managed identity name
     principal_id = get_principal_id(credential, args.subscription_id, args.managed_identity_name)
 
-    # Get the role assignments for the given managed identity
     role_assignments = get_role_assignments(credential, args.subscription_id, principal_id)
     
-    # Display the role assignments
     for role_assignment in role_assignments:
         print(f"Role Assignment ID: {role_assignment.id}")
         print(f"Principal ID: {role_assignment.principal_id}")
